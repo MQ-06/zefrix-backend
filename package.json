@@ -1,0 +1,25 @@
+{
+  "name": "zefrix-vercel-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "vercel-build": "echo \"No build necessary\"",
+
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "firebase-admin": "^13.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MQ-06/zefrix-backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MQ-06/zefrix-backend/issues"
+  },
+  "homepage": "https://github.com/MQ-06/zefrix-backend#readme",
+  "description": ""
+}
