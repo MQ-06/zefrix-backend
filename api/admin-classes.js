@@ -21,12 +21,19 @@ export default async function handler(req, res) {
     if (status && ["pending", "approved", "rejected"].includes(status)) {
       query = query.where("approvalStatus", "==", status);
     }
-    
-    // Order by creation date (newest first)
-    query = query.orderBy("createdAt", "desc").limit(parseInt(limit));
 
     const snapshot = await query.get();
-    const classes = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    let classes = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    
+    // Sort by createdAt in memory (newest first)
+    classes.sort((a, b) => {
+      const aTime = a.createdAt?.toMillis?.() || a.createdAt?._seconds || 0;
+      const bTime = b.createdAt?.toMillis?.() || b.createdAt?._seconds || 0;
+      return bTime - aTime;
+    });
+    
+    // Apply limit after sorting
+    classes = classes.slice(0, parseInt(limit));
 
     return res.status(200).json({ success: true, classes, count: classes.length });
   } catch (err) {
