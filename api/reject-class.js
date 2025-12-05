@@ -36,13 +36,22 @@ export default async function handler(req, res) {
       reason: reason || ""
     };
 
-    const webhookUrl = process.env.N8N_WEBHOOK_URL;
-    if (webhookUrl) {
-      await fetch(webhookUrl, {
+    // Call n8n admin-action webhook
+    const adminActionWebhook = process.env.N8N_ADMIN_ACTION_WEBHOOK || "https://n8n.srv1137454.hstgr.cloud/webhook-test/admin-action";
+    try {
+      await fetch(adminActionWebhook, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          ...payload,
+          action: "reject",
+          adminUid: req.user?.uid || "system",
+          timestamp: new Date().toISOString(),
+        }),
       });
+    } catch (webhookError) {
+      console.error("Admin action webhook error:", webhookError);
+      // Don't fail the request if webhook fails
     }
 
     return res.status(200).json({ success: true, message: "Class rejected" });
