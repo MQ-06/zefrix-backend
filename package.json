@@ -7,7 +7,8 @@
     "seed": "node seeder.js",
     "build": "echo \"No build necessary\"",
     "vercel-build": "echo \"No build necessary\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test-api.js",
+    "test:api": "node test-api.js"
   },
   "keywords": [],
   "author": "",

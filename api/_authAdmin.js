@@ -2,6 +2,13 @@
 import { auth, db } from "./_firebase.js";
 
 export async function verifyAdmin(req) {
+  // TEMPORARY: Allow bypassing auth for testing via environment variable
+  const disableAuth = process.env.DISABLE_AUTH === "true";
+  if (disableAuth) {
+    console.warn("⚠️  WARNING: Admin auth is DISABLED for testing!");
+    return { uid: "test-admin", user: { role: "admin", email: "test@zefrix.com" } };
+  }
+
   const header = req.headers.authorization || "";
   const token = header.split("Bearer ")[1] || header.split("bearer ")[1] || null;
   if (!token) {
