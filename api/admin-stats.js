@@ -50,11 +50,11 @@ export default async function handler(req, res) {
       totalCreators: creatorsSnapshot.size,
     };
     
-    console.log("📊 Stats returned:", stats);
+    //console.log("📊 Stats returned:", stats);
     return res.status(200).json({ success: true, stats });
     
   } catch (err) {
-    console.error("admin-stats error:", err);
+    //console.error("admin-stats error:", err);
     if (err.code === "not-authorized" || err.code === "no-token") {
       return res.status(403).json({ error: "Not authorized" });
     }
